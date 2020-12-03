@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title> House Hunter </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+    <!-- plotly here -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Sanchez" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin=""/>
+  
+    <!-- Icons -->
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="./assets/css/leaflet.extra-markers.min.css">
+  
+    <!--  Our Leaflet CSS -->
+    <link rel="stylesheet" type="text/css" href="./assets/css/leafletstyle.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/cupertino/jquery-ui.css">
+    
+</head>
+<body>
+    <!-- ? Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="assets/img/logo/loder.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <header>        
+        <div class="header-area header-transparent">
+            <div class="main-header ">
+                <div class="header-bottom">
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <!-- Logo -->
+                            <div class="col-xl-2 col-lg-2">
+                                <div class="logo">
+                                    <a href="index.html"><img src="assets/img/logo/logo2.png" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="col-xl-10 col-lg-10">
+                                <div class="menu-wrapper d-flex align-items-center justify-content-end">
+                                    <!-- Main-menu -->
+                                    <div class="main-menu d-none d-lg-block">
+                                        <nav>
+                                            <ul id="navigation">                    
+                                                <li><select class="custom-select mr-sm-2" name="option" id="metZone_combo" onchange="onChangeCityCombo(this.value, false)">
+                                                        <option value="" disabled selected>Ciudad </option>
+                                                    </select></li>
+                                                    <li><select class="custom-select mr-sm-2" name="option" id="city_combo" >
+                                                        <option value="" disabled selected>Municipio </option>
+                                                    </select></li>
+                                                      <li> Presupuesto:
+                                                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                                        <div id="slider-range"></div>
+                                                        <input type="hidden" id="min_amount"/>
+                                                        <input type="hidden" id="max_amount"/>
+                                                </li>
+                                                <li class="button-header margin-left "><a class="btn" onclick="onClickFiltrar()">Filtrar </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-12">
+                                <div class="mobile_menu d-block d-lg-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <!--? About-1 Area Start -->
+        <div class="about-area1 section-padding40">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-xl-6 ">
+                        <!-- about-img -->
+                        <div class="section-tittle section-tittle2 mb-30">
+                            <h3 id= "titulo_Mapa1">Zona Metropolitana de Monterrey</h3>
+                        </div>
+                        <div id="map-container">
+                            <div id="map-id">
+                            </div>
+                          </div>
+                         <style>
+                              #map-container {
+                              position: relative;
+                              height: 600px;
+                              width: 600px;
+                          }
+                          
+                          #map-id {
+                              position: relative;
+                              height: inherit;
+                              width: inherit;
+                          }
+                         </style> 
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="about-caption ">
+                            <!-- Section Tittle -->
+                            <div class="section-tittle section-tittle2 mb-30">
+                                <h3 id= "titulo_pie"> Distribución de crímenes en tu municipio </h3>
+                                <div id="pie"></div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="about-area1 section-padding">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-xl-6 ">
+                        <!-- about-img -->
+                        <div class="section-tittle section-tittle2 mb-30">
+                            <h3 id="titulo_box">Distribución de metros cuadrados en tu presupuesto </h3>
+                            <div id="plot"></div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="about-caption ">
+                            <!-- Section Tittle -->
+                            <div class="section-tittle section-tittle2 mb-30">
+                                <h3 id="titulo_bar"> Lugares turísticos disponibles en tu municipio </h3>
+                                <div id="bar"></div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About-1 Area End -->
+        <h2 id="nut_fact_header"></h2>
+        <div class="about-area1 pb-bottom">
+            <div class="container">
+                <h2 id="titulo_table">Table </h2>
+        <div class="table-responsive">
+            <table></table>          
+        </div>
+    </div>
+</div>
+<div class="about-area1 section-padding40">
+    <div class="container">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-xl-6 ">
+                <!-- about-img -->
+                <div class="section-tittle section-tittle2 mb-30">
+                    <h4 id="titulo_Mapa2">Selected House Location </h4>
+                </div>
+                <div id="map-container-2">
+                    <div id="map-id-2">
+                    </div>
+                  </div>
+                 <style>
+                      #map-container-2 {
+                      position: relative;
+                      height: 600px;
+                      width: 600px;
+                  }
+                  
+                  #map-id-2 {
+                      position: relative;
+                      height: inherit;
+                      width: inherit;
+                  }
+                 </style> 
+            </div>
+            <div class="col-xl-6" style="padding: 50px;">
+                <div class="about-caption ">
+                    <!-- Section Tittle -->
+                    <div class="section-tittle section-tittle2 mb-30" >
+                        <h3> Precio publicado: </h3>
+                    </div> 
+                    <a href="#" class="btn"><i class="fas fa-phone-alt" id="precio_publicado" ></i> </a>
+                    <hr>
+                    <div class="section-tittle section-tittle2 mb-30" >
+                        <h3> Precio sugerido de compra: </h3>
+                    </div> 
+                    <a href="#" class="btn"><i class="fas fa-phone-alt" id="precio_sugerido" ></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- About-2 Area End -->
+    <footer>
+        <div class="footer-wrappr ">
+            <div class="footer-bottom-area">
+                <div class="container">
+                    <div class="footer-border">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="footer-copy-right text-center">
+                                   <div class="footer-logo mb-25">
+                                    <a href="index.html"><img src="assets/img/logo/logo2.png" alt="house hunter logo"></a>
+                                </div>
+                                <p> Copyright &copy; 2020 This is a website for Data Visualization Bootcamp </a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </footer>
+
+<!-- MomentJS -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+
+<!-- Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+crossorigin=""></script>
+
+<!-- Icons -->
+<script src="./assets/js/leaflet.extra-markers.min.js"></script>
+
+<!-- API Key -->
+<script type="text/javascript" src="./assets/js/config.js"></script>
+
+<!-- JS here -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="https://d3js.org/d3-request.v1.min.js"></script>
+<script src="assets/js/d3.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/generalFunctions.js"></script>
+<script src="assets/js/multi.js"></script>
+<script type="text/javascript" src="./assets/js/placesd3.js"></script>      
+<script src="assets/js/mapa.js"></script>
+
+</body>
+</html>
