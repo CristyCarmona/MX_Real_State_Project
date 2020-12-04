@@ -1,12 +1,11 @@
 #################################################
 #                      Imports                  #
 #################################################
-from flask import Flask, jsonify, render_template
+from flask import Flask, render_template
 import json
 from flask_cors import CORS
 from config import key as password
 from sqlalchemy import create_engine
-import pandas as pd
 import pickle
 import numpy as np
 
@@ -15,7 +14,7 @@ app = Flask(__name__)
 #################################################
 # Set Env to prod when pushing changes to Master 
 # branch, for local environment set to dev.
-# Note: Make sure to update the 
+# Note: Make sure to update the environment (ENV)
 #################################################
 ENV = 'dev'
 
