@@ -21,6 +21,6 @@ Places of interes Data.- Places API from Google https://console.cloud.google.com
 ## Coding Approach 
 ![CodingApproach](https://github.com/CristyCarmona/MX_Real_State_Project/blob/main/assets/img/coding_appproach.jpg)
 
-## How the API works 
+
 
 
