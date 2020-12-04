@@ -16,7 +16,7 @@ Crimes Data .- CSVs from https://www.gob.mx/sesnsp/acciones-y-programas/datos-ab
 Places of interes Data.- Places API from Google https://console.cloud.google.com/    
 
 ## Table schema 
-![Visualization1](https://github.com/CristyCarmona/MX_Real_State_Project/blob/main/data/img/QuickDBD-export.png)
+![Visualization1](https://github.com/CristyCarmona/MX_Real_State_Project/blob/main/data/QuickDBD-export.png)
 
 ## Coding Approach 
 ![CodingApproach](https://github.com/CristyCarmona/MX_Real_State_Project/blob/main/assets/img/coding_appproach.jpg)
