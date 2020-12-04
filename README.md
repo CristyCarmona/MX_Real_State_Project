@@ -2,6 +2,7 @@
 The project is focused on analyzing HOUSES FOR SALE of Mexico’s biggest metropolitan areas: Mexico City, Monterrey, and Guadalajara. It also identifies several factors that can influence housing decisions, such as places of interest and crime rates.
 
 ## Visualizations 
+![Visualization1](https://github.com/CristyCarmona/Bicycle_Trips_Analysis_NY/blob/main/Images/Bicycle%20Trips1.jpg)
 
 ## Data Sources 
 Houses Data .- Web Scrapping from https://www.metroscubicos.com/                                                                                                             
@@ -9,6 +10,7 @@ Crimes Data .- CSVs from https://www.gob.mx/sesnsp/acciones-y-programas/datos-ab
 Places of interes Data.- Places API from Google https://console.cloud.google.com/    
 
 ## Table schema 
+
 
 ## Coding Approach 
 
