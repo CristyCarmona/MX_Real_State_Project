@@ -48,20 +48,26 @@ def index():
         
     )
 
+## Endpoint for populating metro areas combo ## 
+###############################################
+  
 @app.route("/metropoli_zone")
 def getMetropolitanAreas():
-    ## Retrieve metropolitan zones data 
+    ## Retrieve metro areas data 
     postgreSQL_select_met_zone = "SELECT * FROM metropolitan_zone;"
     connection = engine.connect()
     met_zone_catalog = connection.execute(postgreSQL_select_met_zone)
     connection.close()
     
-    # Return json with metropoli id and description 
+    # Return json with metro id and description 
     return json.dumps([dict(r) for r in met_zone_catalog])
+
+## Endpoint for populating cities combo ## 
+##########################################
 
 @app.route("/cities/<id_mzone>")
 def getCities(id_mzone):
-    ## Retrieve food descriptions in selected category 
+    ## Retrieve citi descriptions and id in selected metro area  
     postgreSQL_select_cities = ("SELECT id_city,description_city " +
                                     " FROM cities" + 
 	                                "   WHERE id_mzone= " + id_mzone)
@@ -72,6 +78,10 @@ def getCities(id_mzone):
     # Return json with descriptions 
     return json.dumps([dict(r) for r in cities_desc])
 
+## Endpoint to retrieve data for visualizations               ## 
+## City Map, Pie graph, bar graph, box plot and dinamic table ##
+################################################################
+
 @app.route("/housesCrimePlaces_filter/<id_mzone>/<id_city>/<min_presupuesto>/<max_presupuesto>")
 def getHousesCrimePlaces(id_mzone,id_city,min_presupuesto,max_presupuesto):
     resultHousesCrimePlaces = {
@@ -81,7 +91,7 @@ def getHousesCrimePlaces(id_mzone,id_city,min_presupuesto,max_presupuesto):
         "city_coordinates":[]        
     }
    
-    ## Retrieve food descriptions in selected category 
+    ## SQL queries to retrieve houses, crime and places of interest 
     postgreSQL_select_houses = ("SELECT ho.id_publicacion,ho.id_city,ho.house_lat ,ho.house_long, " +
                                     " ho.rooms,ho.bathrooms,ho.squared_meters,ho.builded_squared_meters, " +
                                     " ho.address, ho.price, ci.crime_idx " +
@@ -107,14 +117,13 @@ def getHousesCrimePlaces(id_mzone,id_city,min_presupuesto,max_presupuesto):
                                     "  WHERE id_city = " + id_city)
                                     
 
-
-
     postgreSQL_city_coordinates = ("select city_lat,city_long" +
                                     "  from cities" +
                                     "  where id_city = " + id_city)
 
     connection = engine.connect()
     
+    ## Excecute SQL queries and read data  
     filtered_houses = connection.execute(postgreSQL_select_houses)
     for row in filtered_houses:
         json_houses_data={}
@@ -159,8 +168,12 @@ def getHousesCrimePlaces(id_mzone,id_city,min_presupuesto,max_presupuesto):
     
     connection.close()
     
-    # Return json with descriptions 
+    # Return json with all the info 
     return resultHousesCrimePlaces
+
+## Endpoint to retrieve data for regression                    ## 
+## House Map and suggested price##
+#################################################################
 
 @app.route("/housesPrices_filter/<id_mzone>/<id_city>/<min_presupuesto>/<max_presupuesto>/<selected_id_publicacion>")
 def getSuggestedPrice(id_mzone,id_city,min_presupuesto,max_presupuesto,selected_id_publicacion):
@@ -170,7 +183,7 @@ def getSuggestedPrice(id_mzone,id_city,min_presupuesto,max_presupuesto,selected_
         "suggested_price": "" 
     }
    
-    ## Retrieve food descriptions in selected category 
+    ##SQL queries to retrieve data for the selected house and places of interest around it. 
     postgreSQL_select_houses = ("SELECT ho.id_publicacion,ho.id_city,ho.house_lat ,ho.house_long, " +
                                     " ho.rooms,ho.bathrooms,ho.squared_meters,ho.builded_squared_meters, " +
                                     " ho.address, ho.price, ci.crime_idx " +
@@ -188,7 +201,8 @@ def getSuggestedPrice(id_mzone,id_city,min_presupuesto,max_presupuesto,selected_
 
     connection = engine.connect()
     filtered_houses = connection.execute(postgreSQL_select_houses)
-        
+
+    ## Excecute SQL queries and read data     
     for row in filtered_houses:
         json_houses_data={}
         json_houses_data["id_publicacion"] = row[0]
